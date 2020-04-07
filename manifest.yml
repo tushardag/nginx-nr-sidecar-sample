@@ -1,0 +1,18 @@
+---
+applications:
+  - name: nginx-nr-sidecar-sample 
+    buildpacks: 
+      - nginx_buildpack
+    memory: 64M
+    instances: 1
+    random-route: true
+    env:
+      NEWRELIC_LICENSE_KEY: DUMMY_KEY_NEED_TO_BE_REPLACED_WITH_ACTUAL_KEY 
+      NEWRELIC_APP_NAME: Nginx-NR-sidecar-sample
+      NEWRELIC_PLUGIN_LOG_LEVEL: ERROR
+#     NGINX_HTTP_USER: admin
+#     NGINX_HTTP_PWD: admin
+    sidecars:
+    - name: NewRelic-Nginx-Monitor
+      process_types: [ 'web' ]
+      command: 'python ./newrelic-agent-sidecar/nginx-nr-agent.py'
